@@ -1,6 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react';
 
-const ExpenseAccumulativeSummary = ({title}) => {
+const ExpenseAccumulativeSummary = ({title,expenses}) => {
+    const countTotalAmount = (expenses) =>{
+        let total = 0;
+        expenses.map((expense)=>{
+            total = total + expense.expenseAmount;
+        })
+        console.log(typeof total);
+        return total;
+      };
+
+    const getIncomeAmount = () =>{
+        return countTotalAmount(expenses.filter((expense) =>{return expense.expenseType === 'Income'}));
+      }
+    
+      const getExpenseAmount = () =>{
+        return countTotalAmount(expenses.filter((expense) =>{return expense.expenseType !== 'Income'}));
+      }
+    
+    const[income,setIncome] = useState(getIncomeAmount());
+    const[expense,setExpense] = useState(getExpenseAmount());
+
+    useEffect(() => {    
+        setIncome(getIncomeAmount());
+        setExpense(getExpenseAmount());
+    },[expenses]);
+
     return (
         <>
             <h2 className="summary-info-title text-center mt-5">
@@ -10,14 +35,14 @@ const ExpenseAccumulativeSummary = ({title}) => {
                 <div className="col-5 Income-info p-3">
                     <h5>Income</h5>
                     <small className="text-success font-weight-bold">
-                        Rp.500.000,00
+                        {income}
                     </small>
                 </div>
-                <span class="border-right"></span>
+                <span className="border-right"></span>
                 <div className="col-5 Expense-info p-3 font-weight-bold">
                     <h5 >Expense</h5>
                     <small className="text-danger">
-                        Rp.500.000,00
+                        {expense}
                     </small>
                 </div>
             </div>

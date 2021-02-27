@@ -4,9 +4,9 @@ import HistoryRow from './HistoryRow'
 
 const HistoryExpenseContainer = ({expenses}) => {
     return (
-        <div class="row mt-4">
+        <div className="row mt-4">
             <div className = "col-12">
-                <ul class="list-group">
+                <ul className="list-group">
                     {expenses.map((expense)=>(<HistoryRow key={expense.id} expense={expense}/>))}
                 </ul>
             </div>

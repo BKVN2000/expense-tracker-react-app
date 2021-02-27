@@ -1,38 +1,57 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-const ExpenseLogForm = () => {
+
+
+const ExpenseLogForm = ({onAdd}) => {
+    const [expenseName, setText] = useState("");
+    const [expenseAmount, setAmount] = useState(0);
+    const [expenseType, setType] = useState("");
+
+    const preSubmitForm = (ev) =>{
+        ev.preventDefault();
+        onAdd({expenseName,expenseAmount,expenseType});
+        setText('');
+        setAmount(0);
+        setType('');
+    }
+
     return (
-      <form className="expense-form mt-3">
+      <form className="expense-form mt-3" onSubmit={preSubmitForm}>
         <div className="form-group">
-          <label for="text-input font-weight-bold">Text</label>
+          <label htmlFor="text-input font-weight-bold">Text</label>
           <input
             type="text"
             className="form-control"
             id="text-input"
+            value={expenseName}
+            onChange = {e => setText(e.target.value)}
             placeholder="Enter text..."
           />
         </div>
 
         <div className="form-group">
-          <label for="Amount-input font-weight-bold">Amount</label>
+          <label htmlFor="Amount-input font-weight-bold">Amount</label>
           <input
             type="number"
             className="form-control"
             id="Amount-input"
+            value={expenseAmount}
+            onChange = {e => setAmount(parseInt(e.target.value))}
             placeholder="Enter amount..."
           />
         </div>
 
-        <div className="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Expense</a>
-            <a class="dropdown-item" href="#">Income</a>
+        <div className="form-group">
+            <label htmlFor="expense-type-input font-weight-bold">Expense Type</label>
+            <select className="expense-type-input form-control form-control-md"  onChange = {e => setType(e.target.value)}
+             value={expenseType}>
+                <option value="">Select Type</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
         </div>
-        <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
-        </div>
+
+        <button type="submit" value="submit" className="btn btn-primary btn-block mt-4">Submit</button>
       </form>
     );
 }
